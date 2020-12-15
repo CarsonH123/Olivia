@@ -5,9 +5,11 @@ module.exports = {
 
         //var def
         var commandList = [
-            ["schedule", "Allows you to schedule messages to be sent after a certain amount of time passes"],
-            ["random", "Generates a random number between the specified minimum and maximum"],
-            ["purge", "Deletes the specified number of messages in the channel where the command was issued"],
+            ["+schedule", "Allows you to schedule messages to be sent after a certain amount of time passes"],
+            ["+random", "Generates a random number between the specified minimum and maximum"],
+            ["+cancel", "Resets a specified scheduled message"],
+            ["?purge", "Deletes the specified number of messages in the channel where the command was issued"],
+            ["?smr", "Resets all scheduled messages"]
         ]
 
         var commandListOutput = "```\nCommands:\n\n";
@@ -32,13 +34,21 @@ module.exports = {
                 "Will generate a random number between the specified minimum and maximum (inclusive).```");
             break;
             case 'purge':
-                message.author.send("```\nThe Purge Command: \n---\n!purge [numberOfMessagesToDelete]\n---\n" + 
+                message.author.send("```\nThe Purge Command: \n---\n?purge [numberOfMessagesToDelete]\n---\n" + 
                 "Will delete a number of messages equal to the specified amount in the channel it is called in.```");
             break;
             case 'setup':
                 message.author.send("```\nInitial Bot Setup: \n\n" + 
                 "There are some restricted commands only usable by users with a role titled \"Operator\"\n---\n" +
-                "Resticted commands: ?purge```");
+                "Restricted commands: ?purge, ?smr```");
+            break;
+            case 'smr':
+                message.author.send("```\nThe SMR Command: \n---\n?smr\n---\n" + 
+                "Will completely reset all scheduled messages.\nUSE WITH CAUTION!```");
+            break;
+            case 'cancel':
+                message.author.send("```\nThe Cancel Command: \n---\n+cancel [indexOfMessageToDelete]\n---\n" +
+                "Will delete the scheduled message with the specified index.```");
             break;
             default:
                 for(var i = 0; i < commandList.length; i++) {

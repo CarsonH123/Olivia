@@ -1,39 +1,62 @@
 module.exports = {
     name: "scheduled",
     descriptiom: "prints a list of all currently scheduled messages",
-    execute(message, commandTerms, schedulingArrays) {
+    execute(message, commandTerms, client) {
 
-        //format check
-        if (commandTerms.length > 2 || commandTerms[1] > schedulingArrays.length) {
-            message.channel.send ("Improper formatting. Cancelling procedure.");
-            message.channel.send ("`+scheduled {messageID}`");
-            return;
-        }
-
-        //user looking for specific message info
-        if (commandTerms.length == 2 && commandTerms[1] <= schedulingArrays.length) {
-
-            var timeLeft = schedulingArrays[commandTerms[1]][2] - Date.now();
-
-            var specificOutput = "Information about `Message "      + commandTerms[1] + "`\n\n";
-
-            specificOutput = specificOutput.concat("Message: "      + schedulingArrays[commandTerms[1]][3]   + "\n");
-            specificOutput = specificOutput.concat("User: <@"       + schedulingArrays[commandTerms[1]][0]   + ">\n");
-            specificOutput = specificOutput.concat("Channel: "      + schedulingArrays[commandTerms[1]][1]   + "\n");
-            specificOutput = specificOutput.concat("Time Left: "    + timeLeft                               + " ms\n");
+        var fs = require('fs');
         
-            message.channel.send(specificOutput);
-        }
+        var output;
+        var jsData;
 
-        //user not looking for specific message info
-        if (commandTerms.length == 1) {
-            var overviewOutput = "**Scheduled Messages:**\n\n---\n";
+        fs.readFile('./resources/scheduledMessages.json', 'utf8', (err, data) => {
+            if (err) {
+                console.log("Error");
+                console.log(err);
+                return;
+            } else {
+                jsData = JSON.parse(data);
 
-            for(var i = 0; i < schedulingArrays.length; i++) {
-                overviewOutput = overviewOutput.concat("`Message " + i + "` " + schedulingArrays[i][3] + "\n---\n"); //message
+                if (commandTerms.length > 2 || commandTerms[1] > 9) { //format checking
+
+                    message.channel.send("Improper formatting! Cancelling procedure!");
+                    message.channel.send("`+scheduled {indexOfMessage}`");
+                    return;
+
+                } else if (commandTerms.length == 1) { //no specific message info needed
+                    output = "**Scheduled Messages:**\n\n";
+        
+                    for (var i = 0; i < 10; i++) {
+        
+                        if (jsData.messages[i].used) {
+        
+                            output = output.concat("`Message " + i + ":`\n");
+                            output = output.concat(jsData.messages[i].message + "\n\n");
+        
+                        }
+                    }
+
+                    message.channel.send(output);
+        
+                } else { //specific info needed
+
+                    var timeLeft = jsData.messages[commandTerms[1]].endTime - Date.now();
+                    var daysLeft = Math.floor(timeLeft / 86400000);
+                    var hoursLeft = Math.floor((timeLeft - daysLeft * 86400000) / 3600000);
+                    var minutesLeft = Math.floor((timeLeft - (daysLeft * 86400000 + hoursLeft * 3600000)) / 60000);
+                    
+                   message.channel.send("```\n" +
+                   "User: " + client.users.cache.get(jsData.messages[commandTerms[1]].userID).username + "\n" + 
+                   "Channel: " + client.channels.cache.get(jsData.messages[commandTerms[1]].channel).name + "\n" + 
+                   "Time Left: " + daysLeft + "d " + hoursLeft + "h " + minutesLeft + "m " + "\n" + 
+                   "Message: " + jsData.messages[commandTerms[1]].message + "```");
+                }
             }
+        });
 
-            message.channel.send(overviewOutput);
-        }
+        
+
+        
+
+
     }
 }

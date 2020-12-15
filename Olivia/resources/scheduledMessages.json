@@ -1,0 +1,74 @@
+{
+    "messages": [
+        {
+            "used": true,
+            "userID": "425741773361512449",
+            "channel": "783527030586081280",
+            "endTime": 1608488926338,
+            "message": "test"
+        },
+        {
+            "used": true,
+            "userID": "425741773361512449",
+            "channel": "783527030586081280",
+            "endTime": 1607538960730,
+            "message": "End Of Period Test"
+        },
+        {
+            "used": true,
+            "userID": "425741773361512449",
+            "channel": "720371695273377814",
+            "endTime": 1607539370119,
+            "message": "pogchamp"
+        },
+        {
+            "used": false,
+            "userID": null,
+            "channel": null,
+            "endTime": 0,
+            "message": null
+        },
+        {
+            "used": false,
+            "userID": null,
+            "channel": null,
+            "endTime": 0,
+            "message": null
+        },
+        {
+            "used": false,
+            "userID": null,
+            "channel": null,
+            "endTime": 0,
+            "message": null
+        },
+        {
+            "used": false,
+            "userID": null,
+            "channel": null,
+            "endTime": 0,
+            "message": null
+        },
+        {
+            "used": false,
+            "userID": null,
+            "channel": null,
+            "endTime": 0,
+            "message": null
+        },
+        {
+            "used": false,
+            "userID": null,
+            "channel": null,
+            "endTime": 0,
+            "message": null
+        },
+        {
+            "used": false,
+            "userID": null,
+            "channel": null,
+            "endTime": 0,
+            "message": null
+        }
+    ]
+}
